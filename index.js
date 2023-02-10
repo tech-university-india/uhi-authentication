@@ -5,7 +5,7 @@ const app = express()
 
 app.use(express.json())
 app.use(express.text())
-const authRoutes = require('./src/routes/authRoutes')
+const loginRoutes = require('./src/routes/loginRoutes')
 
-app.use('/auth', authRoutes)
+app.use('/auth/users/login', loginRoutes)
 app.listen(9007, () => console.log('Started on port 9007'))
