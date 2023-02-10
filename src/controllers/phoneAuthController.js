@@ -2,10 +2,13 @@ const authService = require('../services/authService')
 
 const login = async (request, response) => {
   try {
-    const { phone } = request.body
-    const data = await authService.loginWithPhoneNumber(phone)
+    const { mobile } = request.body
+    const data = await authService.loginWithPhoneNumber(mobile)
     response.status(201).json({ message: 'OTP sent', data })
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+    response.send(error)
+  }
 }
 
 module.exports = { login }
