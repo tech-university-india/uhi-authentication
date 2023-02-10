@@ -5,6 +5,15 @@ const publicKeyFetcher = require('./publicKeyFetcher')
 const encryptionUtils = require('./encryptionUtil')
 const { HttpError } = require('../httpError')
 const { ABDM_API_URLS } = require('../../../config')
+
+const handleAxiosErrorForPhoneLogin = (error) => {
+  if (error instanceof AxiosError) {
+    const response = error.response
+    throw new HttpError(response.data.details[0].message, 400)
+  }
+  throw Error(error)
+}
+
 const generatePhoneLoginOTP = async (mobile) => {
   try {
     const { token } = await getJWTToken()
@@ -18,16 +27,7 @@ const generatePhoneLoginOTP = async (mobile) => {
 
     return response.data
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const response = error.response
-      if (response.status === 422) {
-        throw new HttpError('The OTP is incorrect', 400)
-      } else if (response.status === 400) {
-        throw new HttpError(response.data.details[0].message, 400)
-      }
-    } else {
-      throw Error(error)
-    }
+    handleAxiosErrorForPhoneLogin(error)
   }
 }
 
@@ -45,16 +45,7 @@ const verifyPhoneLoginOTP = async (txnId, otp) => {
     })
     return response.data
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const response = error.response
-      if (response.status === 422) {
-        throw new HttpError('The OTP is incorrect', 400)
-      } else if (response.status === 400) {
-        throw new HttpError(response.data.details[0].message, 400)
-      }
-    } else {
-      throw Error(error)
-    }
+    handleAxiosErrorForPhoneLogin(error)
   }
 }
 
@@ -70,16 +61,7 @@ const resendPhoneLoginOTP = async (authMethod, txnId) => {
     })
     return response.data
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const response = error.response
-      if (response.status === 422) {
-        throw new HttpError('Could not Resend OTP or No Account Found with given Transaction.', 400)
-      } else if (response.status === 400) {
-        throw new HttpError(response.data.details[0].message, 400)
-      }
-    } else {
-      throw Error(error)
-    }
+    handleAxiosErrorForPhoneLogin(error)
   }
 }
 
