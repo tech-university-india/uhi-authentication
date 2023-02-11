@@ -7,27 +7,32 @@ const REQ_PARAMTERS = {
 }
 
 const schemas = {
-    login: joi.object({
-        mobile: joi.string().required()
-    }),
-    verifyOtp: joi.object({
-        txnId: joi.string().required(),
-        otp: joi.string().required()
-    }),
-    resendOtp: joi.object({
-        txnId: joi.string().required(),
-        authMethod: joi.string().required(),
-    }),
-    loginWithABHA: joi.object({
-        healthId: joi.number().required(),
-        yearOfBirth: joi.number().required(),
-        authMethod: joi.string().valid('AADHAAR_OTP','MOBILE_OTP').required(),
-    }),
-    verifyOtpABHA: joi.object({
-        txnId: joi.string().required(),
-        otp: joi.string().required(),
-        authMethod: joi.string().valid('AADHAAR_OTP','MOBILE_OTP').required(),
-    })
+  login: joi.object({
+    credentials: joi.string().min(10).max(14).required(),
+    loginType: joi.string().valid('MOBILE', 'ABHA').required(),
+    yearOfBirth: joi.number(),
+    authMethod: joi.valid('MOBILE_OTP', 'AADHAAR_OTP')
+
+  }),
+  verifyOtp: joi.object({
+    txnId: joi.string().required(),
+    otp: joi.string().required(),
+    loginType: joi.string().valid('MOBILE', 'ABHA').required()
+  }),
+  resendOtp: joi.object({
+    txnId: joi.string().required(),
+    authMethod: joi.string()
+  }),
+  loginWithABHA: joi.object({
+    healthId: joi.number().required(),
+    yearOfBirth: joi.number().required(),
+    authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required()
+  }),
+  verifyOtpABHA: joi.object({
+    txnId: joi.string().required(),
+    otp: joi.string().required(),
+    authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required()
+  })
 }
 
 /**
@@ -37,7 +42,6 @@ const schemas = {
  */
 
 const validate = (schema, parameterType) => (req, res, next) => {
-    console.log("ENTERED");
   const { error } = schema.validate(req[parameterType])
   if (error) {
     return res.status(400).json({ message: error.message })

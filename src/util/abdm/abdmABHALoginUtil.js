@@ -25,11 +25,10 @@ const checkHealthID = async (healthId, yearOfBirth) => {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    });
+    })
 
-    return data;
-  }
-  catch (error) {
+    return data
+  } catch (error) {
     handleAxiosErrorForABHALogin(error)
   }
 }

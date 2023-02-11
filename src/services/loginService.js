@@ -16,20 +16,19 @@ const resendOtpForLoginWithPhoneNumber = async (txnId, authMethod) => {
 }
 
 const loginWithABHA = async (healthID, yearOfBirth, authMethod) => {
-  const data = await abdmABHAUtils.checkHealthID(healthID, yearOfBirth)
-  const { txnId } = await abdmABHAUtils.generateABHALoginOTP(healthID, authMethod);
-  return txnId;
+  await abdmABHAUtils.checkHealthID(healthID, yearOfBirth)
+  const { txnId } = await abdmABHAUtils.generateABHALoginOTP(healthID, authMethod)
+  return txnId
 }
 
-const verifyOtpForLoginWithABHAWithAadhaar = async (txnId, otp) => {
-  const data = await abdmABHAUtils.verifyABHALoginOTPAadhaar(txnId, otp)
+const verifyOtpForLoginWithABHA = async (txnId, otp, authMethod) => {
+  let data = null
+  if (authMethod === 'AADHAAR_OTP') {
+    data = await abdmABHAUtils.verifyABHALoginOTPAadhaar(txnId, otp)
+  } else {
+    data = await abdmABHAUtils.verifyABHALoginOTPMobile(txnId, otp)
+  }
   return data
 }
 
-const verifyOtpForLoginWithABHAWithMobile = async (txnId, otp) => {
-  
-  const data = await abdmABHAUtils.verifyABHALoginOTPMobile(txnId, otp)
-  return data
-}
-
-module.exports = { loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHAWithAadhaar, verifyOtpForLoginWithABHAWithMobile }
+module.exports = { loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }
