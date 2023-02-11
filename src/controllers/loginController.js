@@ -32,4 +32,31 @@ const verifyOtp = async (request, response) => {
   }
 }
 
-module.exports = { login, verifyOtp, resendOtp }
+const loginWithABHA = async (request, response) => {
+  try {
+    const { healthId, authMethod, yearOfBirth } = request.body;
+    const data = await authService.loginWithABHA(healthId, yearOfBirth, authMethod);
+    response.status(201).json({ message: 'OTP sent', data })
+  }
+  catch (error) {
+    errorHandlerInRoute(error, request, response)
+  }
+}
+
+const verifyOtpABHA = async (request, response) => {
+  try {
+    const { otp, txnId, authMethod } = request.body
+    let data
+    if(authMethod === 'MOBILE_OTP') {
+      data = await authService.verifyOtpForLoginWithABHAWithMobile(txnId, otp)
+    }
+    else if(authMethod === 'AADHAAR_OTP') {
+      data = await authService.verifyOtpForLoginWithABHAWithAadhaar(txnId, otp)
+    }
+    response.status(201).json({ message: 'OTP verified', data })
+  } catch (error) {
+    errorHandlerInRoute(error, request, response)
+  }
+}
+
+module.exports = { login, verifyOtp, resendOtp, loginWithABHA, verifyOtpABHA }
