@@ -12,7 +12,7 @@ const parseJWT = (jwt) => jose.decodeJwt(jwt)
 
 const fetchJWTFromServer = async () => {
   // console.log(process.env.SANDBOXURL)
-  const response = await fetch('https://gjgew5guy33vice6fauegfokme0dyaxy.lambda-url.us-east-1.on.aws/?code=krkedikhayenge')
+  const response = await fetch(process.ENV.SANDBOXURL)
   const token = await response.text()
   return token
 }
