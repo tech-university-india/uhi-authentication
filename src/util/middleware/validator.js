@@ -1,27 +1,46 @@
-const Joi = require('joi')
+const joi = require('joi')
 
-const schemas = {
-
-  user: Joi.object({
-    username: Joi.string().min(3).max(10).alphanum().required(),
-    password: Joi.string().min(6).max(20).required()
-  }),
-  validate: Joi.object({ token: Joi.string().min(10).max(255).required() })
-
-}
 const REQ_PARAMTERS = {
   BODY: 'body',
-  HEADER: 'headers',
   QUERY: 'query',
   PARAMS: 'params'
+}
+
+const schemas = {
+  login: joi.object({
+    credentials: joi.string().min(10).max(14).required(),
+    loginType: joi.string().valid('MOBILE', 'ABHA').required(),
+    yearOfBirth: joi.number(),
+    authMethod: joi.valid('MOBILE_OTP', 'AADHAAR_OTP')
+
+  }),
+  verifyOtp: joi.object({
+    txnId: joi.string().required(),
+    otp: joi.string().required(),
+    loginType: joi.string().valid('MOBILE', 'ABHA').required()
+  }),
+  resendOtp: joi.object({
+    txnId: joi.string().required(),
+    authMethod: joi.string()
+  }),
+  loginWithABHA: joi.object({
+    healthId: joi.number().required(),
+    yearOfBirth: joi.number().required(),
+    authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required()
+  }),
+  verifyOtpABHA: joi.object({
+    txnId: joi.string().required(),
+    otp: joi.string().required(),
+    authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required()
+  })
 }
 
 /**
  *
     * @param {joi.Schema} schema
  * @param {String} parameterType
-
  */
+
 const validate = (schema, parameterType) => (req, res, next) => {
   const { error } = schema.validate(req[parameterType])
   if (error) {
