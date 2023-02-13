@@ -1,7 +1,7 @@
 const { default: axios, AxiosError } = require('axios')
-const { getJWTToken } = require('../abdm/authToken')
+const { getJWTToken } = require('../../services/authToken')
 
-const publicKeyFetcher = require('./publicKeyFetcher')
+const publicKeyFetcher = require('../../services/publicKeyFetcher')
 const encryptionUtils = require('./encryptionUtil')
 const { HttpError } = require('../httpError')
 const { ABDM_API_URLS } = require('../../../config')
