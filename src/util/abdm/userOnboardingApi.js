@@ -1,7 +1,8 @@
 const axios = require('axios')
+const { ABDM_API_URLS } = require('../../../config')
 
 const generateOtp = async (encAadhar, token) => {
-  const response = axios.post('https://healthidsbx.abdm.gov.in/api/v2/registration/aadhaar/generateOtp', {
+  const response = axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_GENERATE_OTP_AADHAAR_URL, {
     aadhaar: encAadhar
   }, {
     headers: {
@@ -12,7 +13,7 @@ const generateOtp = async (encAadhar, token) => {
 }
 
 const verifyOtp = async (encOtp, txnId, token) => {
-  const response = await axios.post('https://healthidsbx.abdm.gov.in/api/v2/registration/aadhaar/verifyOTP', {
+  const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_VERIFY_OTP_AADHAAR_URL, {
     // if v2 use encryptedOTP
     otp: encOtp, // userOtp,
     txnId
@@ -25,7 +26,7 @@ const verifyOtp = async (encOtp, txnId, token) => {
 }
 
 const checkAndGenerateMobileOTP = async (mobileNum, txnId, token) => {
-  const response = await axios.post('https://healthidsbx.abdm.gov.in/api/v2/registration/aadhaar/checkAndGenerateMobileOTP', {
+  const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_CHECK_AND_GENERATE_MOBILE_OTP_URL, {
     mobile: mobileNum,
     txnId
   }, {
@@ -37,7 +38,7 @@ const checkAndGenerateMobileOTP = async (mobileNum, txnId, token) => {
 }
 
 const verifyMobileOtp = async (otp, txnId, token) => {
-  const response = await axios.post('https://healthidsbx.abdm.gov.in/api/v1/registration/aadhaar/verifyMobileOTP', {
+  const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_VERIFY_MOBILE_OTP_URL, {
     otp,
     txnId
   }, {
@@ -49,7 +50,7 @@ const verifyMobileOtp = async (otp, txnId, token) => {
 }
 
 const createHealthIdWithPreVerified = async (userData, userDetails, txnId, token) => {
-  const response = await axios.post('https://healthidsbx.abdm.gov.in/api/v1/registration/aadhaar/createHealthIdWithPreVerified', {
+  const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_CREATE_HEALTH_ID_WITH_PRE_VERIFIED_URL_V1, {
     // "mobile": userMobileNum,
     // "txnId": transactioId
     ...userData,
