@@ -1,7 +1,7 @@
 const axios = require('axios')
 const { client } = require('../redisConnection')
 
-const redisAdapter = (config) => {
+const redisAdapter = (config, expireTime = 3500) => {
   return new Promise((resolve, reject) => {
     (async () => {
       try {
@@ -11,7 +11,7 @@ const redisAdapter = (config) => {
         } else {
           const data = await axios.get(process.env.SANDBOXURL)
 
-          await client.set(config.url, data.data, 'EX', 3500)
+          await client.set(config.url, data.data, 'EX', expireTime)
           resolve(data.data)
         }
       } catch (error) {
@@ -28,6 +28,7 @@ const axiosInstance = axios.create({
 })
 const fetchJWTTokenFromAdapter = async () => {
   const response = await axiosInstance.get(process.env.SANDBOXURL)
+  console.log(response)
   return response.data
 
   // await client.disconnect()
