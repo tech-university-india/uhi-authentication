@@ -1,6 +1,6 @@
 const axios = require('axios')
 const { client } = require('../redisConnection')
-const TOKEN_EXPIRE = 30
+const TOKEN_EXPIRE = 3500
 const redisAdapter = (config) => {
   return new Promise((resolve, reject) => {
     (async () => {
@@ -11,7 +11,7 @@ const redisAdapter = (config) => {
         } else {
           const data = await axios.get(process.env.SANDBOXURL)
           await client.set(config.url, data.data, { EX: TOKEN_EXPIRE })
-          resolve({ data: data.data })
+          resolve(data)
         }
       } catch (error) {
         reject(error)
