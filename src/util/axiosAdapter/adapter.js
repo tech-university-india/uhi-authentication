@@ -1,7 +1,7 @@
 const axios = require('axios')
 const { client } = require('../redisConnection')
-
-const redisAdapter = (config, expireTime = 3500) => {
+const TOKEN_EXPIRE = 30
+const redisAdapter = (config) => {
   return new Promise((resolve, reject) => {
     (async () => {
       try {
@@ -10,9 +10,8 @@ const redisAdapter = (config, expireTime = 3500) => {
           resolve({ data: redisData })
         } else {
           const data = await axios.get(process.env.SANDBOXURL)
-
-          await client.set(config.url, data.data, 'EX', expireTime)
-          resolve(data.data)
+          await client.set(config.url, data.data, { EX: TOKEN_EXPIRE })
+          resolve({ data: data.data })
         }
       } catch (error) {
         reject(error)
