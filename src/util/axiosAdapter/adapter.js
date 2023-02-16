@@ -27,7 +27,6 @@ const axiosInstance = axios.create({
 })
 const fetchJWTTokenFromAdapter = async () => {
   const response = await axiosInstance.get(process.env.SANDBOXURL)
-  console.log(response)
   return response.data
 
   // await client.disconnect()
