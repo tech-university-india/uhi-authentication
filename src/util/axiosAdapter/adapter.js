@@ -20,7 +20,6 @@ const redisAdapter = (config) => {
   })
 }
 
-// Create your Axios instance
 const axiosInstance = axios.create({
   adapter: redisAdapter
 
@@ -28,8 +27,6 @@ const axiosInstance = axios.create({
 const fetchJWTTokenFromAdapter = async () => {
   const response = await axiosInstance.get(process.env.SANDBOXURL)
   return response.data
-
-  // await client.disconnect()
 }
 
 module.exports = { fetchJWTTokenFromAdapter }
