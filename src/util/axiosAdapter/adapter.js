@@ -22,8 +22,8 @@ const redisAdapter = (config) => {
 
 const axiosInstance = axios.create({
   adapter: redisAdapter
-
 })
+
 const fetchJWTTokenFromAdapter = async () => {
   const response = await axiosInstance.get(process.env.SANDBOXURL)
   return response.data
