@@ -23,7 +23,7 @@
     "redis": "^4.6.4",
     "sequelize": "^6.28.0"
   },
-"devDependencies": {
+  "devDependencies": {
     "eslint": "^8.33.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
