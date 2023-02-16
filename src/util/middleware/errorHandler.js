@@ -5,7 +5,6 @@ const errorHandlerInRoute = (error, req, res) => {
     res.status(error.statusCode).json({ message: error.message })
     return
   }
-  console.log(error.toString())
   res.status(500).json({ message: 'Internal server error' })
 }
 
