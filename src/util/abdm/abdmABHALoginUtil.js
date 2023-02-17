@@ -87,9 +87,27 @@ const verifyABHALoginOTPMobile = async (txnId, otp) => {
   }
 }
 
+const resendABHALoginOTP = async (authMethod, txnId) => {
+  try {
+    const { token } = await getJWTToken()
+    await axios.post(ABDM_API_URLS.HEALTH_ID.LOGIN_RESEND_OTP_ABHA_URL, {
+      authMethod,
+      txnId
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return true
+  } catch (error) {
+    handleAxiosErrorForABHALogin(error)
+  }
+}
+
 module.exports = {
   checkHealthID,
   generateABHALoginOTP,
   verifyABHALoginOTPAadhaar,
-  verifyABHALoginOTPMobile
+  verifyABHALoginOTPMobile,
+  resendABHALoginOTP
 }

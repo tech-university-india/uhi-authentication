@@ -31,4 +31,9 @@ const verifyOtpForLoginWithABHA = async (txnId, otp, authMethod) => {
   return data
 }
 
-module.exports = { loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }
+const resendOtpForLoginWithABHA = async (txnid, authMethod) => {
+  const data = await abdmABHAUtils.resendABHALoginOTP(authMethod, txnid)
+  return data
+}
+
+module.exports = { resendOtpForLoginWithABHA, loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }

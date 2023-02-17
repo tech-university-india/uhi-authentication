@@ -21,7 +21,8 @@ const schemas = {
   }),
   resendOtp: joi.object({
     txnId: joi.string().required(),
-    authMethod: joi.string()
+    authMethod: joi.string(),
+    loginType: joi.string().valid('MOBILE', 'ABHA').required()
   }),
   loginWithABHA: joi.object({
     healthId: joi.number().required(),
