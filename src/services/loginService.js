@@ -7,6 +7,7 @@ const loginWithPhoneNumber = async (mobile) => {
 }
 const verifyOtpForLoginWithPhoneNumber = async (txnId, otp) => {
   const data = await abdmPhoneUtils.verifyPhoneLoginOTP(txnId, otp)
+
   return data
 }
 
@@ -36,4 +37,9 @@ const resendOtpForLoginWithABHA = async (txnid, authMethod) => {
   return data
 }
 
-module.exports = { resendOtpForLoginWithABHA, loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }
+const getAccountDetailsFromHealthID = async (healthId, txnId, authToken) => {
+  const data = await abdmPhoneUtils.getUserTokenByHealthId(healthId, txnId, authToken)
+  return { message: `Token for ABHA ${healthId} generated`, data }
+}
+
+module.exports = { getAccountDetailsFromHealthID, resendOtpForLoginWithABHA, loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }

@@ -48,5 +48,14 @@ const verifyOtp = async (request, response) => {
     errorHandlerInRoute(error, request, response)
   }
 }
+const generateTokenByHealthId = async (request, response) => {
+  try {
+    const { token, txnId, healthId } = request.body
+    const data = await authService.getAccountDetailsFromHealthID(healthId, txnId, token)
+    response.status(201).json(data)
+  } catch (error) {
+    errorHandlerInRoute(error, request, response)
+  }
+}
 
-module.exports = { login, verifyOtp, resendOtp }
+module.exports = { login, verifyOtp, resendOtp, generateTokenByHealthId }
