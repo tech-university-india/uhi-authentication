@@ -7,8 +7,12 @@ const loginWithPhoneNumber = async (mobile) => {
 }
 const verifyOtpForLoginWithPhoneNumber = async (txnId, otp) => {
   const data = await abdmPhoneUtils.verifyPhoneLoginOTP(txnId, otp)
+  if (data.mobileLinkedHid && data.mobileLinkedHid.length === 1) { // Only one ABHA Linked
+    const userToken = await abdmPhoneUtils.getUserTokenByHealthId(data.mobileLinkedHid[0].healthIdNumber, data.txnId, data.token)
+    return { token: userToken.token, single: true }
+  }
 
-  return data
+  return { token: data.token, single: false }
 }
 
 const resendOtpForLoginWithPhoneNumber = async (txnId, authMethod) => {

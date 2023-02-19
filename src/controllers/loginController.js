@@ -48,6 +48,7 @@ const verifyOtp = async (request, response) => {
     errorHandlerInRoute(error, request, response)
   }
 }
+
 const generateTokenByHealthId = async (request, response) => {
   try {
     const { token, txnId, healthId } = request.body
