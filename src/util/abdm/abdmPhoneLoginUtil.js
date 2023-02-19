@@ -9,7 +9,7 @@ const { ABDM_API_URLS } = require('../../../config')
 const handleAxiosErrorForPhoneLogin = (error) => {
   if (error instanceof AxiosError) {
     const response = error.response
-    if ([500, 401].find(response.status)) throw new Error()
+    if ([500, 401].includes(response.status)) throw new Error()
     throw new HttpError(response.data.details[0].message, 400)
   }
   throw Error(error)
