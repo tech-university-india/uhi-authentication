@@ -32,7 +32,27 @@ const schemas = {
     txnId: joi.string().required(),
     otp: joi.string().required(),
     authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required()
+  }),
+  retrieveAccount: joi.object({
+    authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required(),
+    healthid: joi.string().required()
+  }),
+  verifyOTPforAccountRecovery: joi.object({
+    authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required(),
+    otp: joi.string().required(),
+    txnId: joi.string().required()
+  }),
+  searchProfile: joi.object({
+    healthId: joi.string().required()
+  }),
+  generateForgotAbhaOtp: joi.object({
+    aadhaar: joi.number().required()
+  }),
+  verifyForgotAbhaOtp: joi.object({
+    txnId: joi.string().required(),
+    otp: joi.string().required()
   })
+
 }
 
 /**
