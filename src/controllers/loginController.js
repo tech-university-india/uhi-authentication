@@ -20,8 +20,13 @@ const login = async (request, response) => {
 
 const resendOtp = async (request, response) => {
   try {
-    const { txnId, authMethod } = request.body
-    const data = await authService.resendOtpForLoginWithPhoneNumber(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+    const { txnId, authMethod, loginType } = request.body
+    let data = null
+    if (loginType === 'MOBILE') {
+      data = await authService.resendOtpForLoginWithPhoneNumber(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+    } else {
+      data = authService.resendOtpForLoginWithABHA(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+    }
     response.status(201).json({ message: 'OTP resent', data })
   } catch (error) {
     errorHandlerInRoute(error, request, response)
@@ -44,4 +49,14 @@ const verifyOtp = async (request, response) => {
   }
 }
 
-module.exports = { login, verifyOtp, resendOtp }
+const generateTokenByHealthId = async (request, response) => {
+  try {
+    const { token, txnId, healthId } = request.body
+    const data = await authService.getAccountDetailsFromHealthID(healthId, txnId, token)
+    response.status(201).json(data)
+  } catch (error) {
+    errorHandlerInRoute(error, request, response)
+  }
+}
+
+module.exports = { login, verifyOtp, resendOtp, generateTokenByHealthId }

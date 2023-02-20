@@ -50,7 +50,7 @@ const verifyMobileOtp = async (otp, txnId, token) => {
 }
 
 const createHealthIdWithPreVerified = async (userData, userDetails, txnId, token) => {
-  const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_CREATE_HEALTH_ID_WITH_PRE_VERIFIED_URL_V1, {
+  const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_CREATE_HEALTH_ID_WITH_PRE_VERIFIED_URL, {
     // "mobile": userMobileNum,
     // "txnId": transactioId
     ...userData,

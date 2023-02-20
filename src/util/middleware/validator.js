@@ -7,6 +7,13 @@ const REQ_PARAMTERS = {
 }
 
 const schemas = {
+  generateTokenByHealthId: joi.object({
+    token: joi.string().min(3).max(1000).required(),
+    healthId: joi.string().min(14).required(),
+    txnId: joi.string().required()
+
+  }),
+
   login: joi.object({
     credentials: joi.string().min(10).max(14).required(),
     loginType: joi.string().valid('MOBILE', 'ABHA').required(),
@@ -21,7 +28,8 @@ const schemas = {
   }),
   resendOtp: joi.object({
     txnId: joi.string().required(),
-    authMethod: joi.string()
+    authMethod: joi.string(),
+    loginType: joi.string().valid('MOBILE', 'ABHA').required()
   }),
   loginWithABHA: joi.object({
     healthId: joi.number().required(),

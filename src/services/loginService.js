@@ -7,7 +7,12 @@ const loginWithPhoneNumber = async (mobile) => {
 }
 const verifyOtpForLoginWithPhoneNumber = async (txnId, otp) => {
   const data = await abdmPhoneUtils.verifyPhoneLoginOTP(txnId, otp)
-  return data
+  if (data.mobileLinkedHid && data.mobileLinkedHid.length === 1) { // Only one ABHA Linked
+    const userToken = await abdmPhoneUtils.getUserTokenByHealthId(data.mobileLinkedHid[0].healthIdNumber, data.txnId, data.token)
+    return { token: userToken.token, single: true }
+  }
+
+  return { token: data.token, single: false }
 }
 
 const resendOtpForLoginWithPhoneNumber = async (txnId, authMethod) => {
@@ -31,4 +36,14 @@ const verifyOtpForLoginWithABHA = async (txnId, otp, authMethod) => {
   return data
 }
 
-module.exports = { loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }
+const resendOtpForLoginWithABHA = async (txnid, authMethod) => {
+  const data = await abdmABHAUtils.resendABHALoginOTP(authMethod, txnid)
+  return data
+}
+
+const getAccountDetailsFromHealthID = async (healthId, txnId, authToken) => {
+  const data = await abdmPhoneUtils.getUserTokenByHealthId(healthId, txnId, authToken)
+  return { message: `Token for ABHA ${healthId} generated`, data }
+}
+
+module.exports = { getAccountDetailsFromHealthID, resendOtpForLoginWithABHA, loginWithPhoneNumber, resendOtpForLoginWithPhoneNumber, verifyOtpForLoginWithPhoneNumber, loginWithABHA, verifyOtpForLoginWithABHA }

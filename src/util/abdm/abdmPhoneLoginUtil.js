@@ -9,6 +9,7 @@ const { ABDM_API_URLS } = require('../../../config')
 const handleAxiosErrorForPhoneLogin = (error) => {
   if (error instanceof AxiosError) {
     const response = error.response
+    if ([500, 401].includes(response.status)) throw new Error()
     throw new HttpError(response.data.details[0].message, 400)
   }
   throw Error(error)
@@ -43,6 +44,7 @@ const verifyPhoneLoginOTP = async (txnId, otp) => {
         Authorization: `Bearer ${token}`
       }
     })
+
     return response.data
   } catch (error) {
     handleAxiosErrorForPhoneLogin(error)
@@ -65,4 +67,22 @@ const resendPhoneLoginOTP = async (authMethod, txnId) => {
   }
 }
 
-module.exports = { generatePhoneLoginOTP, resendPhoneLoginOTP, verifyPhoneLoginOTP }
+const getUserTokenByHealthId = async (healthId, txnId, authToken) => {
+  try {
+    const { token } = await getJWTToken()
+    const response = await axios.post(ABDM_API_URLS.HEALTH_ID.FETCH_USER_AUTHORIZED_TOKEN, {
+      healthId,
+      txnId
+    }, {
+      headers: {
+        'T-Token': `Bearer ${authToken}`,
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data
+  } catch (error) {
+    handleAxiosErrorForPhoneLogin(error)
+  }
+}
+
+module.exports = { generatePhoneLoginOTP, resendPhoneLoginOTP, verifyPhoneLoginOTP, getUserTokenByHealthId }
