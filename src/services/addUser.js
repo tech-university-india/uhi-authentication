@@ -1,39 +1,19 @@
 const db = require('../database/models')
 
 const addUserService = async (user) => {
-  const mobileId = await db.userPhone.create({
-    phoneNumber: user.mobile
-  },
-  { returning: true })
-
-  const emailId = await db.userEmail.create({
-    email: user.email
-  }, { returning: true })
-
-  const userObj = {
+  // eslint-disable-next-line no-unused-vars
+  const userData = await db.Users.create({
+    userName: user.userName,
+    healthId: user.healthId,
     firstName: user.firstName,
-    lastName: user.lastName,
-    emailId: emailId.id,
-    phoneNumberId: mobileId.id,
-    name: user.name,
-    uniqueId: null,
-    healthId: user.healthIdNumber,
-    dateOfBirth: user.dateOfBirth,
     middleName: user.middleName,
+    lastName: user.lastName,
+    profilePhoto: user.profilePhoto,
+    emailId: user.emailId,
+    phoneNumber: user.phoneNumber,
+    address: user.address,
     gender: user.gender,
-    profilePhoto: user.profilePhoto
-  }
-
-  const userDetails = await db.Users.create(userObj, { returning: true })
-
-  const userId = userDetails.id
-  await db.userLocation.create({
-    userId,
-    stateCode: user.stateCode,
-    districtCode: user.districtCode,
-    subDistrictCode: user.subDistrictCode,
-    pinCode: user.pinCode,
-    address: user.address
+    dateOfBirth: user.dateOfBirth
   }, { returning: true })
 }
 

@@ -9,11 +9,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      userName: {
         type: Sequelize.STRING
-      },
-      uniqueId: {
-        type: Sequelize.UUID
       },
       healthId: {
         type: Sequelize.STRING
@@ -27,25 +24,17 @@ module.exports = {
       lastName: {
         type: Sequelize.STRING
       },
-      dateOfBirth: {
-        type: Sequelize.DATEONLY
-      },
-      yearOfBirth: {
-        type: Sequelize.STRING
-      },
-      gender: {
-        type: Sequelize.ENUM('M', 'F', 'O')
-      },
       profilePhoto: {
         type: Sequelize.STRING
       },
       emailId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'userEmails', key: 'id' }
+        type: Sequelize.STRING
       },
-      phoneNumberId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'userPhones', key: 'id' }
+      phoneNumber: {
+        type: Sequelize.STRING
+      },
+      address: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
