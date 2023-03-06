@@ -25,7 +25,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       profilePhoto: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(10000)
       },
       emailId: {
         type: Sequelize.STRING
@@ -35,6 +35,12 @@ module.exports = {
       },
       address: {
         type: Sequelize.STRING
+      },
+      gender: {
+        type: Sequelize.ENUM('M', 'F', 'O')
+      },
+      dateOfBirth: {
+        type: Sequelize.DATEONLY
       },
       createdAt: {
         allowNull: false,
