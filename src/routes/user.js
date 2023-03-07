@@ -1,7 +1,7 @@
-const router1 = require('express').Router()
+const registerRoutes = require('express').Router()
 const addUserController = require('../controllers/user')
-const userValidator = require('../util/middleware/userOnboardingValidator')
+const { validate, REQ_PARAMTERS, schemas } = require('../util/middleware/validator')
 
-router1.post('/', userValidator, addUserController)
+registerRoutes.post('/', validate(schemas.userOnboardingDetails, REQ_PARAMTERS.BODY), addUserController)
 
-module.exports = router1
+module.exports = registerRoutes
