@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     phoneNumber: DataTypes.STRING,
     address: DataTypes.STRING,
     dateOfBirth: DataTypes.DATEONLY,
-    gender: DataTypes.ENUM('M', 'F', 'O')
+    gender: DataTypes.ENUM('M', 'F', 'O'),
+    aadhaarNumber: DataTypes.STRING,
+    healthIdNumber: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'users'

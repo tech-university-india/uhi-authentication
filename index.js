@@ -14,5 +14,5 @@ const PORT = process.env.PORT || 9007
 const loginRoutes = require('./src/routes/loginRoutes')
 const registerRoutes = require('./src/routes/user.js')
 app.use('/auth/users', loginRoutes)
-app.use('/user', registerRoutes)
+app.use('/onboarding/user', registerRoutes)
 app.listen(PORT, () => console.log(`Started on port ${PORT}`))
