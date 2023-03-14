@@ -14,8 +14,7 @@ const generateOtp = async (encAadhar, token) => {
 
 const verifyOtp = async (encOtp, txnId, token) => {
   const response = await axios.post(ABDM_API_URLS.HEALTH_ID.ONBOARDING_VERIFY_OTP_AADHAAR_URL, {
-    // if v2 use encryptedOTP
-    otp: encOtp, // userOtp,
+    otp: encOtp, 
     txnId
   }, {
     headers: {
