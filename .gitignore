@@ -106,3 +106,5 @@ dist
 
 #VS CODE
 .vscode
+
+.DS_Store
