@@ -43,7 +43,7 @@ const schemas = {
   }),
   userOnboardingDetails: joi.object({
     userName: joi.string().max(100).min(3).required(),
-    healthId: joi.string().min(14).max(18).required(),
+    healthId: joi.string().required(),
     firstName: joi.string().max(100).min(3).required(),
     middleName: joi.string().max(100).allow(null, ''),
     lastName: joi.string().max(100),
@@ -52,7 +52,9 @@ const schemas = {
     phoneNumber: joi.string().min(10).max(10).required(),
     address: joi.string().required(),
     gender: joi.string().valid('M', 'F', 'O').required(),
-    dateOfBirth: joi.string().required()
+    dateOfBirth: joi.string().required(),
+    aadhaarNumber: joi.string().min(12).max(12).required(),
+    healthIdNumber: joi.string().min(14).max(18).required()
   })
 }
 
