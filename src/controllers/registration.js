@@ -1,6 +1,6 @@
 const addUserService = require('../services/user')
 
-const addUserController = async (req, res) => {
+const register = async (req, res) => {
   try {
     await addUserService(req.body)
     res.status(200).send('User added successfully')
@@ -9,4 +9,4 @@ const addUserController = async (req, res) => {
   }
 }
 
-module.exports = addUserController
+module.exports = { register }
