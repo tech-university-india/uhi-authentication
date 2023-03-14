@@ -5,6 +5,4 @@ class HttpError extends Error {
     this.message = message
   }
 }
-module.exports = {
-  HttpError
-}
+module.exports = HttpError

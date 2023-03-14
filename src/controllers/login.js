@@ -1,5 +1,6 @@
-const authService = require('../services/loginService')
-const { errorHandlerInRoute } = require('../util/middleware/errorHandler')
+const phoneLoginService = require('../services/abdm/login/phone')
+const abhaLoginService = require('../services/abdm/login/abha')
+const { errorHandlerInRoute } = require('../util/errors/errorHandler')
 
 const login = async (request, response) => {
   try {
@@ -7,10 +8,10 @@ const login = async (request, response) => {
     let data = null
     if (loginType === 'MOBILE') {
       const { credentials } = request.body
-      data = await authService.loginWithPhoneNumber(credentials)
+      data = await phoneLoginService.generateOtp(credentials)
     } else {
       const { credentials, yearOfBirth, authMethod } = request.body
-      data = await authService.loginWithABHA(credentials, yearOfBirth, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+      data = await abhaLoginService.generateOtp(credentials, yearOfBirth, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
     }
     response.status(201).json({ message: 'OTP sent', data })
   } catch (error) {
@@ -23,9 +24,9 @@ const resendOtp = async (request, response) => {
     const { txnId, authMethod, loginType } = request.body
     let data = null
     if (loginType === 'MOBILE') {
-      data = await authService.resendOtpForLoginWithPhoneNumber(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+      data = await phoneLoginService.resendOtp(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
     } else {
-      data = authService.resendOtpForLoginWithABHA(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+      data = abhaLoginService.resendOtp(txnId, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
     }
     response.status(201).json({ message: 'OTP resent', data })
   } catch (error) {
@@ -38,10 +39,14 @@ const verifyOtp = async (request, response) => {
     const { otp, txnId, loginType } = request.body
     let data = null
     if (loginType === 'MOBILE') {
-      data = await authService.verifyOtpForLoginWithPhoneNumber(txnId, otp)
+      data = await phoneLoginService.verifyOtpForLoginWithPhoneNumber(txnId, otp)
     } else {
       const { otp, txnId, authMethod } = request.body
-      data = await authService.verifyOtpForLoginWithABHA(txnId, otp, authMethod === undefined ? 'MOBILE_OTP' : authMethod)
+      if (authMethod === 'AADHAAR_OTP') {
+        data = abhaLoginService.verifyAadhaarOtp(txnId, otp)
+      } else {
+        data = abhaLoginService.verifyMobileOtp(txnId, otp)
+      }
     }
     response.status(201).json({ message: 'OTP verified', data })
   } catch (error) {
@@ -52,7 +57,7 @@ const verifyOtp = async (request, response) => {
 const generateTokenByHealthId = async (request, response) => {
   try {
     const { token, txnId, healthId } = request.body
-    const data = await authService.getAccountDetailsFromHealthID(healthId, txnId, token)
+    const data = await phoneLoginService.getUserTokenByHealthId(healthId, txnId, token)
     response.status(201).json(data)
   } catch (error) {
     errorHandlerInRoute(error, request, response)
