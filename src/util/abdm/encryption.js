@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-const getEncrypted = async (data, publicKey) => {
+const encryptData = async (data, publicKey) => {
   return crypto.publicEncrypt({
     key: publicKey,
     padding: crypto.constants
@@ -8,4 +8,4 @@ const getEncrypted = async (data, publicKey) => {
   }, Buffer.from(data, 'utf-8')).toString('base64')
 }
 
-module.exports = { getEncrypted }
+module.exports = { encryptData }
