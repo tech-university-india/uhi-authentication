@@ -40,6 +40,19 @@ const schemas = {
     txnId: joi.string().required(),
     otp: joi.string().required(),
     authMethod: joi.string().valid('AADHAAR_OTP', 'MOBILE_OTP').required()
+  }),
+  userOnboardingDetails: joi.object({
+    userName: joi.string().max(100).min(3).required(),
+    healthId: joi.string().min(14).max(18).required(),
+    firstName: joi.string().max(100).min(3).required(),
+    middleName: joi.string().max(100).allow(null, ''),
+    lastName: joi.string().max(100),
+    profilePhoto: joi.string().max(10000).required(),
+    emailId: joi.string().email().max(256).required(),
+    phoneNumber: joi.string().min(10).max(10).required(),
+    address: joi.string().required(),
+    gender: joi.string().valid('M', 'F', 'O').required(),
+    dateOfBirth: joi.string().required()
   })
 }
 

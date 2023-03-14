@@ -1,18 +1,23 @@
 {
   "development": {
-    "username": "uhaadmin",
-    "password": "password@123",
-    "database": "auth",
+    "username": "postgres",
+    "password": null,
+    "database": "abha",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "port": 5432 
+    "dialect": "postgres"
   },
   "test": {
-    "username": "uhaadmin",
-    "password": "password@123",
-    "database": "auth",
+    "username": "postgres",
+    "password": null,
+    "database": "abha",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "port": 5432 
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": null,
+    "database": "abha",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   }
 }
