@@ -42,6 +42,12 @@ module.exports = {
       dateOfBirth: {
         type: Sequelize.DATEONLY
       },
+      aadhaarNumber: {
+        type: Sequelize.STRING
+      },
+      healthIdNumber: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
